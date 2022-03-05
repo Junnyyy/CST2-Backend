@@ -105,3 +105,6 @@ dist
 
 # MacOS system files
 .DS_Store
+
+# Guide files
+.md
