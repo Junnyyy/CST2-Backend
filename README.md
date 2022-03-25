@@ -6,10 +6,12 @@ This app is a full stack Museum Database app.
 ## Languages
 
 ###### Front-end
-- Undecided
+- ExpressJS
+- Static HTML
+- CSS
 
 ###### Back-end
-- Undecided
+- Node JS
 
 ###### Database
 - MySQL
