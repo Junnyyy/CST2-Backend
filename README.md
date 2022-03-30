@@ -1,4 +1,4 @@
-![App Logo](public/CST2-Logo-Transparent-Smaller.png)
+![App Logo](public/images/CST2-Logo-Transparent-Smaller.png)
 # CST2-Database-App 
 
 This app is a full stack Museum Database app.
