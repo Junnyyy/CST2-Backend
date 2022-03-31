@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scroll Website</title>
-    <link rel="stylesheet" href="../stylesheets/style.css" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/stylesheets/style.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
@@ -22,7 +22,6 @@
           <span class="bar"></span>
         </div>
         <ul class="navbar__menu">
-        
           <li class="navbar__item">
             <a href="#home" class="navbar__links" id="home-page">Home</a>
           </li>
@@ -36,10 +35,11 @@
           </li>
           <li class="navbar__btn">
             <a href="#sign-up" class="button" id="signup">Sign Up</a>
+          </li>
 
-            <li class="navbar__btn1">
-              <a href="#login" class="button" id="login">Login</a>
-            
+          <li class="navbar__btn1">
+            <a href="#login" class="button" id="login">Login</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -47,17 +47,16 @@
     <!-- Hero Section -->
     <div class="hero" id="home">
       <div class="hero__container">
-        <h1 class="hero__heading"><span>Museum of</span> <span>Fines Art</span></h1>
+        <h1 class="hero__heading">
+          <span>Museum of</span> <span>Fine Arts</span>
+        </h1>
         <p class="hero__description">Houston, Texas</p>
         <button class="main__btn"><a href="#">Explore</a></button>
       </div>
     </div>
 
-    
-
     <!-- Footer Section -->
- 
 
-    <script src="../javascript/app.js"></script>
+    <script src="/public/javascript/style.js"></script>
   </body>
 </html>
