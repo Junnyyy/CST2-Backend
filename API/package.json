@@ -16,7 +16,7 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1"
   },
-  "devDependencies" : {
+  "devDependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",
