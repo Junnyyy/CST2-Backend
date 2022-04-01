@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Module dependencies.
-require('dotenv').config()
+//require('dotenv').config()
 var app = require('../app');
 var debug = require('debug')('cst2-database-app:server');
 var http = require('http');
