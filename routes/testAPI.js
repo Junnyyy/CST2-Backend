@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 router.use(express.json());
-//var database = require('./database.js');
+//var database = require('../database.js');
 
 emails = [ // Example email data set
   { email: "bobbie@gmail.com" },

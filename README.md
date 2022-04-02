@@ -6,12 +6,14 @@ This app is a full stack Museum Database app.
 ## Languages
 
 ###### Front-end
-- ExpressJS
 - Static HTML
 - CSS
 
 ###### Back-end
-- Node JS
+- ExpressJS (Restful API)
 
 ###### Database
 - MySQL
+
+###### Hosting
+- Microsft Azure 
