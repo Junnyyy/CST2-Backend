@@ -27,15 +27,7 @@ router.get("/", function (req, res, next) {
       result[5],
       result[6],
     ]); // Each query is a new index
-    //console.log(JSON.parse());
-    //res.json(result[0].concat(result[1]));
   });
-
-  /*employeeData1 = getEmployee();
-  employeeData2 = getEmployee();
-  employeeData3 = JSON.stringify(employeeData1.concat(employeeData2));
-  console.log(employeeData3);*/
-  //res.json(JSON.parse(employeeData1));
 });
 
 module.exports = router;
