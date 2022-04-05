@@ -23,7 +23,7 @@ router.post("/", function (req, res, next) {
   const newUser = req.body;
   const query =
     "INSERT INTO EMPLOYEE(Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name, Salary, DOB) VALUES (?)";
-  var values = [
+  var data = [
     newUser.firstname,
     newUser.middlename,
     newUser.lastname,
@@ -35,7 +35,7 @@ router.post("/", function (req, res, next) {
   //res.json(newUser);
   //res.sendStatus(200);
 
-  database.query(query, [values], function (err, result) {
+  database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;

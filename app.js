@@ -6,10 +6,11 @@ var logger = require('morgan');
 const cors = require('cors');
 
 // routers
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testAPIRouter = require('./routes/testAPI');
-var reportRouter = require('./routes/report');
+const indexRouter = require('./routes/index');
+//const usersRouter = require('./routes/users');
+//const testAPIRouter = require('./routes/testAPI');
+const artpieceRouter = require('./routes/artpiece');
+const reportRouter = require('./routes/report');
 
 var app = express();
 app.use(cors());
@@ -25,10 +26,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/testAPI', testAPIRouter);
-app.use('/public', express.static('public'));
+//app.use('/users', usersRouter);
+//app.use('/testAPI', testAPIRouter);
+app.use('/artpiece', artpieceRouter);
 app.use('/report', reportRouter);
+app.use('/public', express.static('public'));
 
 // catch favicon request
 app.get('/favicon.ico', (req, res) => res.status(204));

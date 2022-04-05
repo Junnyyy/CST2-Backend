@@ -7,26 +7,27 @@ var database = require("../helpers/database.js");
 router.get("/", function (req, res, next) {
   const query =
     "SELECT Employee_F_Name, Employee_M_Name, Employee_L_Name FROM EMPLOYEE;" +
-    " SELECT Art_Piece_Title FROM ART_PIECE;" +
+    " SELECT Art_Piece_Title, Creator_F_Name, Creator_L_Name FROM ART_PIECE;" +
     " SELECT Customer_F_Name, Customer_M_Name, Customer_L_Name FROM CUSTOMER;" +
     " SELECT Department_Name, Location FROM DEPARTMENT;" +
     " SELECT Exhibit_Name, Ticket_Price FROM EXHIBIT;" +
     " SELECT Gallery_Name FROM GALLERY;" +
-    " SELECT Item_Name FROM STORE_ITEM;"; // add new index by concat(+) a string
+    " SELECT Item_Name FROM STORE_ITEM;";
   database.query(query, [], function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
+    // Each array is an index
     res.json([
-      result[0],
-      result[1],
-      result[2],
-      result[3],
-      result[4],
-      result[5],
-      result[6],
-    ]); // Each query is a new index
+      result[0], // Employee
+      result[1], // Art pieces
+      result[2], // Customer
+      result[3], // Department
+      result[4], // Exhibit
+      result[5], // Gallery
+      result[6], // Store items
+    ]);
   });
 });
 
