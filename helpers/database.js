@@ -3,12 +3,10 @@ const fs = require('fs');
 //const mysql = require("mysql");
 const mysql = require("mysql2");
 
-console.log(process.env);
-
 // Database connection setup
 var connection = mysql.createConnection({
   host: process.env.HOST,
-  user: process.env.USERNAME,
+  user: process.env.SQLUSER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   ssl: { 
