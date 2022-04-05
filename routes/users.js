@@ -1,15 +1,15 @@
 var express = require("express");
 var router = express.Router();
 router.use(express.json());
-var database = require("../database.js");
+var database = require("../helpers/database.js");
 
 // Return a user
-router.get("/:id", function (req, res, next) {
+/*router.get("/:id", function (req, res, next) {
   res.send("respond with a resource");
-});
+});*/
 
-// Example information (newUser below looks like this)
-/*nu = {
+// Example JSON body
+/*body = {
   firstname: "bob",
   middlename: "bob",
   lastname: "bob",
@@ -21,8 +21,7 @@ router.get("/:id", function (req, res, next) {
 // Create new user
 router.post("/", function (req, res, next) {
   const newUser = req.body;
-  //? = (FName, MName, LName, dept, salary, DOB)
-  var sqlQuery =
+  const query =
     "INSERT INTO EMPLOYEE(Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name, Salary, DOB) VALUES (?)";
   var values = [
     newUser.firstname,
@@ -36,14 +35,13 @@ router.post("/", function (req, res, next) {
   //res.json(newUser);
   //res.sendStatus(200);
 
-  database.query(sqlQuery, [values], function (err, result) {
+  database.query(query, [values], function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
     res.sendStatus(200);
   });
-  //res.send('respond with a resource');
 });
 
 module.exports = router;

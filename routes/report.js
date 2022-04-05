@@ -1,19 +1,20 @@
 var express = require("express");
 var router = express.Router();
 router.use(express.json());
-var database = require("../database.js");
+var database = require("../helpers/database.js");
 
 // Return all data
 router.get("/", function (req, res, next) {
   const query =
     "SELECT Employee_F_Name, Employee_M_Name, Employee_L_Name FROM EMPLOYEE;" +
-    " SELECT Art_Piece_Title FROM ART_PIECE";
+    " SELECT Art_Piece_Title FROM ART_PIECE" +
+    ""; // add new index by concat(+) a string
   database.query(query, [], function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
-    res.json([result[0], result[1]]);
+    res.json([result[0], result[1]]); // Each query is a new index
     //console.log(JSON.parse());
     //res.json(result[0].concat(result[1]));
   });

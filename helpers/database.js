@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   ssl: { 
-    ca: fs.readFileSync(__dirname + '/certificates/DigiCertGlobalRootCA.crt.pem') 
+    ca: fs.readFileSync(__dirname + '/../certificates/DigiCertGlobalRootCA.crt.pem') 
   },
   multipleStatements: true,
 });
