@@ -8,6 +8,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testAPIRouter = require('./routes/testAPI');
+var reportRouter = require('./routes/report');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/testAPI', testAPIRouter);
 app.use('/public', express.static('public'));
+app.use('/report', reportRouter);
 
 // catch favicon request
 app.get('/favicon.ico', (req, res) => res.status(204));

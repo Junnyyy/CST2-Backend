@@ -1,6 +1,7 @@
 require("dotenv").config();
 const fs = require('fs');
-var mysql = require("mysql");
+//const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // Database connection setup
 var connection = mysql.createConnection({
@@ -11,6 +12,7 @@ var connection = mysql.createConnection({
   ssl: { 
     ca: fs.readFileSync(__dirname + '/certificates/DigiCertGlobalRootCA.crt.pem') 
   },
+  multipleStatements: true,
 });
 
 connection.connect(function (err) {
