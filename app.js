@@ -3,13 +3,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 // routers
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testAPIRouter = require('./routes/testAPI');
+const indexRouter = require('./routes/index');
+//const usersRouter = require('./routes/users');
+//const testAPIRouter = require('./routes/testAPI');
+const artpieceRouter = require('./routes/artpiece');
+const reportRouter = require('./routes/report');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +26,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/testAPI', testAPIRouter);
+//app.use('/users', usersRouter);
+//app.use('/testAPI', testAPIRouter);
+app.use('/artpiece', artpieceRouter);
+app.use('/report', reportRouter);
 app.use('/public', express.static('public'));
 
 // catch favicon request

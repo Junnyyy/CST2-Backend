@@ -1,16 +1,18 @@
 require("dotenv").config();
 const fs = require('fs');
-var mysql = require("mysql");
+//const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // Database connection setup
 var connection = mysql.createConnection({
   host: process.env.HOST,
-  user: process.env.USER,
+  user: process.env.SQLUSER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   ssl: { 
-    ca: fs.readFileSync(__dirname + '/certificates/DigiCertGlobalRootCA.crt.pem') 
+    ca: fs.readFileSync(__dirname + '/../certificates/DigiCertGlobalRootCA.crt.pem') 
   },
+  multipleStatements: true,
 });
 
 connection.connect(function (err) {
