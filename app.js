@@ -7,7 +7,6 @@ const cors = require("cors");
 
 // routers
 const indexRouter = require("./routes/index");
-//const usersRouter = require('./routes/users');
 //const testAPIRouter = require('./routes/testAPI');
 const artpieceRouter = require("./routes/artpiece");
 const reportRouter = require("./routes/report");
@@ -27,7 +26,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-//app.use('/users', usersRouter);
 //app.use('/testAPI', testAPIRouter);
 app.use("/artpiece", artpieceRouter);
 app.use("/report", reportRouter);
