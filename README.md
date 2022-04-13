@@ -6,8 +6,7 @@ This app is a full stack Museum Database app.
 ## Languages
 
 ###### Front-end
-- Static HTML
-- CSS
+- ReactJS
 
 ###### Back-end
 - ExpressJS (Restful API)
@@ -17,3 +16,4 @@ This app is a full stack Museum Database app.
 
 ###### Hosting
 - Microsft Azure 
+- Vercel or Heroku (TBD)
