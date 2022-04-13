@@ -3,4 +3,8 @@ var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
 
+router.get("/", function (req, res, next) {
+    res.sendStatus(401);
+  });
+
 module.exports = router;
