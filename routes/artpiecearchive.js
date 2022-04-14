@@ -4,7 +4,7 @@ router.use(express.json());
 var database = require("../helpers/database.js");
 
 router.get("/", function (req, res, next) {
-    res.sendStatus(401);
+    res.sendStatus(200);
   });
 
 module.exports = router;
