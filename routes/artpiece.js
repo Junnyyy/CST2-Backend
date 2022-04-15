@@ -4,7 +4,14 @@ router.use(express.json());
 var database = require("../helpers/database.js");
 
 router.get("/", function (req, res, next) {
-  res.sendStatus(401);
+  const query ='SELECT Art_Piece_Title FROM ART_PIECE;';
+  database.query(query,function (err, result) {
+    if (err) {
+      req.sendStatus(500);
+      throw err;
+    }
+    res.json(result)
+  })
 });
 
 router.post("/", function (req, res, next) {
