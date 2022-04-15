@@ -1,10 +1,18 @@
 var express = require("express");
 var router = express.Router();
 router.use(express.json());
-const bcrypt = require("bcrypt");
+require("dotenv").config();
 var database = require("../helpers/database.js");
 
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
+function generateAccessToken(username) {
+  return jwt.sign(username, process.env.TOKEN_SECRET, {});
+}
+
 router.post("/register", async (req, res, next) => {
+  if (Object.keys(req.body).length < 6) return res.status(400);
   // Password encryption
   const salt = await bcrypt.genSalt(10);
   var hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -25,11 +33,13 @@ router.post("/register", async (req, res, next) => {
       res.sendStatus(500);
       throw err;
     }
-    res.status(200).json({ username: user.username });
+    res.status(200).json({ username: req.body.username });
   });
 });
 
 router.post("/login", async (req, res, next) => {
+  if (Object.keys(req.body).length < 2) return res.status(400);
+
   var query =
     "SELECT Employee_password FROM EMPLOYEE WHERE Employee_username = ?;";
   database.query(query, [req.body.username], async (err, result) => {
@@ -38,18 +48,24 @@ router.post("/login", async (req, res, next) => {
       throw err;
     }
 
-    // Status 400 if no username found
-    if (result.length === 0)
-      return res.status(400).json({ status: "incorrect" });
+    // Status 401 if no username found
+    if (result.length === 0) {
+      return res.status(401);
+    }
 
     // Compare password
     const validPassword = await bcrypt.compare(
       req.body.password,
       result[0].Employee_password
     );
-    if (!validPassword) return res.status(400).json({ status: "incorrect" });
 
-    res.status(200).json({ status: "correct" });
+    // Status 401 if password incorrect
+    if (!validPassword) {
+      return res.status(401);
+    }
+
+    const token = generateAccessToken({ username: req.body.username });
+    res.status(200).json({ token: token });
   });
 });
 
