@@ -12,8 +12,12 @@ const artpieceRouter = require("./routes/artpiece");
 const reportRouter = require("./routes/report");
 const authRouter = require("./routes/auth");
 
+// middleware
+const authenticate = require("./middleware/authenticate.js");
+
 var app = express();
 app.use(cors());
+app.use(authenticate);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
