@@ -7,7 +7,7 @@ router.get("/", function (req, res, next) {
   const query ='SELECT Art_Piece_Title FROM ART_PIECE;';
   database.query(query,function (err, result) {
     if (err) {
-      req.sendStatus(500);
+      res.sendStatus(500);
       throw err;
     }
     res.json(result)
@@ -17,7 +17,7 @@ router.get("/", function (req, res, next) {
 router.post("/", function (req, res, next) {
   // Data validation
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    req.sendStatus(400);
+    res.sendStatus(400);
   }
 
   const newArt = req.body;
