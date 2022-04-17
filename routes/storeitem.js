@@ -31,4 +31,20 @@ router.post("/", function (req, res, next) {
   });
 });
 
+router.delete("/", function(req, res, next) {
+  if (Object.keys(req.body).length < 1) return res.status(400);
+
+  const delItem = req.body;
+  var data = [delItem.ItemID];
+
+  const query = "DELETE FROM STORE_ITEM WHERE Item_ID =?;";
+  database.query(query, [data], function(err,result) {
+    if(err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.sendStatus(200);
+  });
+});
+
 module.exports = router;

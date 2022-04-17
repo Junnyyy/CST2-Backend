@@ -10,15 +10,13 @@ router.get("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
-    res.json(result)
+    res.json(result);
   })
 });
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    res.sendStatus(400);
-  }
+  if (Object.keys(req.body).length < 3) return res.status(400);
 
   const newArt = req.body;
   var data = [newArt.title, newArt.firstname, newArt.lastname];
@@ -28,6 +26,22 @@ router.post("/", function (req, res, next) {
 
   database.query(query, [data], function (err, result) {
     if (err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.sendStatus(200);
+  });
+});
+
+router.delete("/", function(req, res, next) {
+  if (Object.keys(req.body).length < 1) return res.status(400);
+
+  const delArt = req.body;
+  var data = [delArt.ID];
+
+  const query = "DELETE FROM ART_PIECE WHERE Art_Piece_ID =?;";
+  database.query(query, [data], function(err,result) {
+    if(err) {
       res.sendStatus(500);
       throw err;
     }

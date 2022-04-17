@@ -31,4 +31,20 @@ router.post("/", function (req, res, next) {
     res.sendStatus(200);
   });
 });
+
+router.delete("/", function(req, res, next) {
+  if (Object.keys(req.body).length < 1) return res.status(400);
+
+  const delDept = req.body;
+  var data = [delDept.name];
+
+  const query = "DELETE FROM DEPARTMENT WHERE Department_Name =?;";
+  database.query(query, [data], function(err,result) {
+    if(err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.sendStatus(200);
+  });
+});
 module.exports = router;

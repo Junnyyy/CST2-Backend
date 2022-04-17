@@ -12,4 +12,19 @@ router.get("/", function (req, res, next) {
     res.json(result)
   })
 });
-  module.exports = router;
+router.delete("/", function(req, res, next) {
+  if (Object.keys(req.body).length < 1) return res.status(400);
+
+  const delEmployee = req.body;
+  var data = [delEmployee.EID];
+
+  const query = "DELETE FROM EMPLOYEE WHERE Employee_ID =?;";
+  database.query(query, [data], function(err,result) {
+    if(err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.sendStatus(200);
+  });
+});
+module.exports = router;
