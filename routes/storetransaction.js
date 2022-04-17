@@ -19,9 +19,9 @@ router.post("/", function (req, res, next) {
   }
 
   const newStoreTran = req.body;
-  var data = [newStoreTran.CID,newStoreTran.total,newStoreTran.IID];
+  var data = [newStoreTran.CID,newStoreTran.IID];
 
-  const query = "INSERT INTO store_transaction(Store_Customer_ID,Store_Total_Bill,Store_Item_ID,Store_Transaction_Date) VALUES(?,CURDATE());";
+  const query = "INSERT INTO store_transaction(Store_Customer_ID,Store_Item_ID) VALUES(?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);

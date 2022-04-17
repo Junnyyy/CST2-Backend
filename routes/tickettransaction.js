@@ -19,8 +19,8 @@ router.post("/", function (req, res, next) {
   }
 
   const newTicketTran = req.body;
-  var data = [newTicketTran.CID,newTicketTran.total,newTicketTran.EID];
-  const query = "INSERT INTO ticket_transaction(Ticket_Customer_ID, Ticket_Total_Bill, Ticket_Exhibit_ID, Ticket_Transaction_Date) VALUES(?,CURDATE());";
+  var data = [newTicketTran.CID,newTicketTran.EID];
+  const query = "INSERT INTO ticket_transaction(Ticket_Customer_ID, Ticket_Exhibit_ID) VALUES(?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);
