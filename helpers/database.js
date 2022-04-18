@@ -4,7 +4,7 @@ const fs = require("fs");
 const mysql = require("mysql2");
 
 // Database connection setup
-const connection = mysql.createConnection({
+const connectionPool = mysql.createPool({
   host: process.env.HOST,
   user: process.env.SQLUSER,
   password: process.env.PASSWORD,
@@ -17,9 +17,10 @@ const connection = mysql.createConnection({
   multipleStatements: true,
 });
 
-connection.connect(function (err) {
+connectionPool.getConnection((err, connection) => {
   if (err) throw err;
   console.log(`Connected succesfully to ${process.env.DATABASE}`);
+  connection.release();
 });
 
-module.exports = connection;
+module.exports = connectionPool;
