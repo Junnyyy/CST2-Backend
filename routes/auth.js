@@ -7,8 +7,16 @@ var database = require("../helpers/database.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-function generateAccessToken(username) {
-  return jwt.sign(username, process.env.TOKEN_SECRET, {});
+function generateAccessToken(payloadInfo) {
+  var payload = {
+    username: payloadInfo.username,
+    id: payloadInfo.id,
+    firstname: payloadInfo.firstname,
+    email: payloadInfo.email,
+    admin: false,
+  };
+
+  return jwt.sign(payload, process.env.TOKEN_SECRET, {});
 }
 
 router.post("/register", async (req, res, next) => {
@@ -41,7 +49,7 @@ router.post("/login", async (req, res, next) => {
   if (Object.keys(req.body).length < 2) return res.status(400);
 
   var query =
-    "SELECT Employee_password FROM EMPLOYEE WHERE Employee_username = ?;";
+    "SELECT Employee_password, Employee_ID, Employee_F_Name, Employee_Email FROM EMPLOYEE WHERE Employee_username = ?;";
   database.query(query, [req.body.username], async (err, result) => {
     if (err) {
       res.sendStatus(500);
@@ -64,7 +72,12 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ error: "not found" });
     }
 
-    const token = generateAccessToken({ username: req.body.username });
+    const token = await generateAccessToken({
+      username: req.body.username,
+      id: result[0].Employee_ID,
+      firstname: result[0].Employee_F_Name,
+      email: result[0].Employee_Email,
+    });
     res.status(200).json({ token: token });
   });
 });
