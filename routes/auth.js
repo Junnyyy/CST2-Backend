@@ -72,7 +72,7 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ error: "not found" });
     }
 
-    const token = await generateAccessToken({
+    const token = generateAccessToken({
       username: req.body.username,
       id: result[0].Employee_ID,
       firstname: result[0].Employee_F_Name,
