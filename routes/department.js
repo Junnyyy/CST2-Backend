@@ -13,7 +13,7 @@ router.get("/", function (req, res, next) {
   })
 });
 
-/*router.patch("/", function(req, res, next) {
+router.put("/", function(req, res, next) {
   const updateDept = req.body;
   // use primary key to find row to modify
   const Squery = "SELECT Location, Supervisor_ID FROM DEPARTMENT WHERE Department_Name =?;";
@@ -24,20 +24,18 @@ router.get("/", function (req, res, next) {
       throw err;
     }
     // creates an array that holds the key values that the query returned
-    var rs = Object.getOwnPropertyNames(results);
-    var newData = [];
     // primary key cannot be modified
     var deptPK = updateDept.name;
     //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
     //if an attribute is to be modified, then the original req will hold that value in the associated key
     if(updateDept.loc=="") {
-      var newLoc =rs[1];
+      var newLoc =results[0].Location;
     }
     else {
       var newLoc = updateDept.loc;
     }
     if(updateDept.SID=="") {
-      var newSupervisor = rs[2];
+      var newSupervisor = results[0].Supervisor_ID;
     }
     else {
       var newSupervisor = updateDept.SID;
@@ -50,7 +48,7 @@ router.get("/", function (req, res, next) {
     });
   });
   res.sendStatus(200);
-});*/
+});
 
 router.post("/", function (req, res, next) {
   // Data validation
