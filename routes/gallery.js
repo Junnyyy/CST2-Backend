@@ -13,7 +13,7 @@ router.get("/", function (req, res, next) {
   })
 });
 
-/*router.patch("/", function(req, res, next) {
+router.put("/", function(req, res, next) {
   const delGal = req.body;
   // use primary key to find row to modify
   const Squery = "SELECT Gallery_Name, Managing_Department, Capacity FROM GALLERY WHERE Gallery_Name=?;";
@@ -24,40 +24,22 @@ router.get("/", function (req, res, next) {
       throw err;
     }
     // creates an array that holds the key values that the query returned
-    console.log(results);
-    const rs = Object.values(results);
-    console.log(rs);
-    var newData = [];
     // primary key cannot be modified
     var galPK = delGal.name;
     //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
     //if an attribute is to be modified, then the original req will hold that value in the associated key
     if(delGal.manager=="") {
-      var newManager =rs.Managing_Department;
+      var newManager =results[0].Managing_Department;
     }
     else {
       var newManager = delGal.manager;
     }
     if(delGal.capacity=="") {
-      var newCapacity = rs.Capacity.value;
+      var newCapacity = results[0].Capacity;
     }
     else {
       var newCapacity = delGal.capacity;
     }
-    const query = "DELETE FROM GALLERY WHERE Gallery_Name =?;";
-    database.query(query, delGal.name, function(err,result) {
-      if(err) {
-        throw err;
-      }
-    })
-    //inserting new row with original and modified values as specified
-    const Pquery = "INSERT INTO GALLERY(Gallery_Name, Managing_Department,Capacity) VALUES(?);";
-    database.query(Pquery, [newData], function (err, result) {
-      if (err) {
-        res.sendStatus(500);
-        throw err;
-      }
-    })
     const Uquery = "UPDATE GALLERY SET Managing_Department=?, Capacity=? WHERE Gallery_Name=?;";
     database.query(Uquery,[newManager, newCapacity, galPK], function(err,result){
       if(err) {
@@ -66,7 +48,7 @@ router.get("/", function (req, res, next) {
     });
   });
   res.sendStatus(200);
-});*/
+});
 
 router.post("/", function (req, res, next) {
   // Data validation
