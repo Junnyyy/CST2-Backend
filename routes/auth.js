@@ -50,7 +50,7 @@ router.post("/login", async (req, res, next) => {
 
     // Status 401 if no username found
     if (result.length === 0) {
-      return res.status(401);
+      return res.status(401).json({ error: "not found" });
     }
 
     // Compare password
@@ -61,7 +61,7 @@ router.post("/login", async (req, res, next) => {
 
     // Status 401 if password incorrect
     if (!validPassword) {
-      return res.status(401);
+      return res.status(401).json({ error: "not found" });
     }
 
     const token = generateAccessToken({ username: req.body.username });
