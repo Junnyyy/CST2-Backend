@@ -13,7 +13,7 @@ function generateAccessToken(payloadInfo) {
     id: payloadInfo.id,
     firstname: payloadInfo.firstname,
     email: payloadInfo.email,
-    admin: false,
+    admin: payloadInfo.admin,
   };
 
   return jwt.sign(payload, process.env.TOKEN_SECRET, {});
@@ -77,6 +77,7 @@ router.post("/login", async (req, res, next) => {
       id: result[0].Employee_ID,
       firstname: result[0].Employee_F_Name,
       email: result[0].Employee_Email,
+      admin: false,
     });
     res.status(200).json({ token: token });
   });
