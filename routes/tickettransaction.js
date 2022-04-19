@@ -13,20 +13,22 @@ router.get("/", function (req, res, next) {
   })
 });
 router.post("/", function (req, res, next) {
-  // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    res.sendStatus(400);
-  }
-
   const newTicketTran = req.body;
   var data = [newTicketTran.CID,newTicketTran.EID];
   const query = "INSERT INTO ticket_transaction(Ticket_Customer_ID, Ticket_Exhibit_ID) VALUES(?);";
-  database.query(query, [data], function (err, result) {
+  database.query(query, [data], function (err, results) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
-    res.sendStatus(200);
+    const returnquery = "SELECT Ticket_Transaction_ID FROM TICKET_TRANSACTION WHERE Ticket_Customer_ID=? AND Ticket_Exhibit_ID=? AND Ticket_Transaction_Date=CURDATE();";
+    database.query(returnquery, [newTicketTran.CID, newTicketTran.EID], function(err,result){
+      if(err) {
+        res.sendStatus(500);
+        throw err;
+      }
+      res.json(result);
+    });
   });
 });
 

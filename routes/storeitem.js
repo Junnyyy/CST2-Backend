@@ -27,7 +27,14 @@ router.post("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
-    res.sendStatus(200);
+  });
+  const returnquery = "SELECT Item_ID FROM STORE_ITEM WHERE Item_Name=?;";
+  database.query(returnquery, newItem.item, function(err,result){
+    if(err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.json(result);
   });
 });
 
@@ -35,7 +42,7 @@ router.delete("/", function(req, res, next) {
   if (Object.keys(req.body).length < 1) return res.status(400);
 
   const delItem = req.body;
-  var data = [delItem.ItemID];
+  var data = [delItem.itemID];
 
   const query = "DELETE FROM STORE_ITEM WHERE Item_ID =?;";
   database.query(query, [data], function(err,result) {

@@ -4,14 +4,14 @@ router.use(express.json());
 var database = require("../helpers/database.js");
 
 router.get("/", function (req, res, next) {
-  const query ='SELECT Art_Piece_Title FROM ART_PIECE;';
+  const query ='SELECT Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID FROM ART_PIECE;';
   database.query(query,function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
     res.json(result);
-  })
+  });
 });
 
 router.post("/", function (req, res, next) {
@@ -28,7 +28,14 @@ router.post("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
-    res.sendStatus(200);
+  });
+  const returnquery = "SELECT Art_Piece_ID FROM ART_PIECE WHERE Art_Piece_Title=?;";
+  database.query(returnquery, newArt.title, function(err,result){
+    if(err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.json(result);
   });
 });
 

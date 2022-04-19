@@ -27,7 +27,14 @@ router.post("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
-    res.sendStatus(200);
+  });
+  const returnquery = "SELECT Store_Transaction_ID FROM STORE_TRANSACTION WHERE Store_Customer_ID=? AND Store_Item_ID=? AND Store_Transaction_Date=CURDATE();";
+  database.query(returnquery, [newStoreTran.CID, newStoreTran.IID], function(err,result){
+    if(err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    res.json(result);
   });
 });
 
