@@ -8,12 +8,24 @@ const cors = require("cors");
 // routers
 const indexRouter = require("./routes/index");
 //const testAPIRouter = require('./routes/testAPI');
-const artpieceRouter = require("./routes/artpiece");
-const reportRouter = require("./routes/report");
+const artpieceRouter = require('./routes/artpiece');
+const artpiecearchiveRouter = require('./routes/artpiecearchive');
+const customerRouter = require('./routes/customer');
+const departmentRouter = require('./routes/department');
+const employeeRouter = require('./routes/employee');
+const exhibitRouter = require('./routes/exhibit');
+const galleryRouter = require('./routes/gallery');
+const storeitemRouter = require('./routes/storeitem');
+const storetransactionRouter = require('./routes/storetransaction');
+const tickettransactionRouter = require('./routes/tickettransaction');
+const reportRouter = require('./routes/report');
+//const artpieceRouter = require("./routes/artpiece");
+//const reportRouter = require("./routes/report");
 const authRouter = require("./routes/auth");
 
 // middleware
 const authenticate = require("./middleware/authenticate.js");
+
 
 var app = express();
 app.use(cors());
@@ -31,9 +43,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 //app.use('/testAPI', testAPIRouter);
-app.use("/artpiece", artpieceRouter);
-app.use("/report", reportRouter);
-app.use("/public", express.static("public"));
+app.use('/artpiece', artpieceRouter);
+app.use('/artpiecearchive', artpiecearchiveRouter);
+app.use('/customer', customerRouter);
+app.use('/department', departmentRouter);
+app.use('/employee', employeeRouter);
+app.use('/exhibit', exhibitRouter);
+app.use('/gallery', galleryRouter);
+app.use('/storeitem', storeitemRouter);
+app.use('/storetransaction', storetransactionRouter);
+app.use('/tickettransaction', tickettransactionRouter);
+app.use('/report', reportRouter);
+app.use('/public', express.static('public'));
+//app.use("/artpiece", artpieceRouter);
+//app.use("/report", reportRouter);
+//app.use("/public", express.static("public"));
 app.use("/auth", authRouter);
 
 // catch favicon request
