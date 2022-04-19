@@ -127,10 +127,10 @@ router.post("/", function (req, res, next) {
   if (Object.keys(req.body).length < 3) return res.status(400);
 
   const newArt = req.body;
-  var data = [newArt.title, newArt.created, newArt.medium, newArt.firstname, newArt.lastname, newArt.status, newArt.culture, newArt.height, newArt.len, newArt.width, newArt.galLoc, newArt.EID];
+  var data = [newArt.title, newArt.created, newArt.medium, newArt.firstname, newArt.lastname, newArt.refurbishedstatus, newArt.displaystatus, newArt.culture, newArt.height, newArt.len, newArt.width, newArt.galLoc, newArt.EID];
 
   const query =
-    "INSERT INTO ART_PIECE(Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID) VALUES (?);";
+    "INSERT INTO ART_PIECE(Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, On_Display, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID) VALUES (?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);
