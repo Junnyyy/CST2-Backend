@@ -3,27 +3,12 @@ var router = express.Router();
 router.use(express.json());
 require("dotenv").config();
 var database = require("../helpers/database.js");
-
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-
-function generateAccessToken(payloadInfo) {
-  var payload = {
-    username: payloadInfo.username,
-    id: payloadInfo.id,
-    firstname: payloadInfo.firstname,
-    email: payloadInfo.email,
-    admin: payloadInfo.admin,
-  };
-
-  return jwt.sign(payload, process.env.TOKEN_SECRET, {});
-}
+var encryption = require("../helpers/encryption");
 
 router.post("/register", async (req, res, next) => {
   if (Object.keys(req.body).length < 6) return res.status(400);
   // Password encryption
-  const salt = await bcrypt.genSalt(10);
-  var hashedPassword = await bcrypt.hash(req.body.password, salt);
+  var hashedPassword = await encryption.generatePassword(req.body.password);
 
   data = [
     req.body.firstname,
@@ -61,8 +46,7 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ error: "not found" });
     }
 
-    // Compare password
-    const validPassword = await bcrypt.compare(
+    const validPassword = await encryption.comparePassword(
       req.body.password,
       result[0].Employee_password
     );
@@ -75,7 +59,7 @@ router.post("/login", async (req, res, next) => {
     var flag = false;
     if (result[0].Admin_Flag == 1) flag = true;
 
-    const token = generateAccessToken({
+    const token = await encryption.generateAccessToken({
       username: req.body.username,
       id: result[0].Employee_ID,
       firstname: result[0].Employee_F_Name,
