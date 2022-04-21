@@ -15,6 +15,62 @@ router.get("/", function (req, res, next) {
   })
 });
 
+router.put("/", function (req, res, next) {
+  const updateItem = req.body;
+  // use primary key to find row to modify
+  const Squery =
+    "SELECT Item_Name, Quantity_In_Stock, Item_Price, Number_Sold FROM STORE_ITEM WHERE Item_ID=?;";
+  database.query(Squery, updateItem.IID, function (err, results) {
+    if (err) {
+      //row doesn't exist
+      res.sendStatus(404);
+      throw err;
+    }
+    // creates an array that holds the key values that the query returned
+    // primary key cannot be modified
+    var ItemPK = updateItem.IID;
+    //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
+    //if an attribute is to be modified, then the original req will hold that value in the associated key
+    if (updateItem.item == "") {
+      var newName = results[0].Item_Name;
+    } else {
+      var newName = updateItem.item;
+    }
+    if (updateItem.quantity == "") {
+      var newQuantity = results[0].Quantity_In_Stock;
+    } else {
+      var newQuantity = updateItem.quantity;
+    }
+    if (updateItem.price == "") {
+      var newPrice = results[0].Item_Price;
+    } else {
+      var newPrice = updateItem.price;
+    }
+    if (updateItem.sold == "") {
+      var newSold = results[0].Number_Sold;
+    } else {
+      var newSold = updateItem.sold;
+    }
+    const Uquery =
+      "UPDATE STORE_ITEM SET Item_Name=?, Quantity_In_Stock=?, Item_Price=?, Number_Sold=? WHERE Item_ID=?;";
+    database.query(
+      Uquery,
+      [
+        newName,
+        newQuantity,
+        newPrice,
+        newSold,
+        ItemPK,
+      ],
+      function (err, result) {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+  });
+  res.sendStatus(200);
+});
 
 router.post("/", function (req, res, next) {
   // Data validation
