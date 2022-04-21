@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
+
+
 router.get("/", function (req, res, next) {
   const query ='SELECT Customer_ID, Customer_F_Name, Customer_M_Name, Customer_L_Name, Membership_Status FROM CUSTOMER;';
   database.query(query,function (err, result) {
@@ -12,6 +14,8 @@ router.get("/", function (req, res, next) {
     res.json(result)
   });
 });
+
+
 router.post("/", function (req, res, next) {
   // Data validation
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
@@ -38,6 +42,8 @@ router.post("/", function (req, res, next) {
     res.json(result);
   });
 });
+
+
 router.delete("/", function(req, res, next) {
   if (Object.keys(req.body).length < 1) return res.status(400);
 

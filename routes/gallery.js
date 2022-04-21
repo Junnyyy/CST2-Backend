@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
+
+
 router.get("/", function (req, res, next) {
   const query ='SELECT * FROM GALLERY;';
   database.query(query,function (err, result) {

@@ -14,6 +14,8 @@ router.get("/", function (req, res, next) {
     res.json(result);
   });
 });
+
+
 router.put("/", function (req, res, next) {
   const updateAP = req.body;
   // use primary key to find row to modify

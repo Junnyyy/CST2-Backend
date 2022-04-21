@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
+
+
 router.get("/", function (req, res, next) {
   const query ='SELECT * FROM EXHIBIT;';
   database.query(query,function (err, result) {
@@ -12,6 +14,8 @@ router.get("/", function (req, res, next) {
     res.json(result)
   })
 });
+
+
 
 router.put("/", function(req, res, next) {
   const updateEx = req.body;
