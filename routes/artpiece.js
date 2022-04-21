@@ -10,8 +10,8 @@ router.get("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
+    res.json(result);
   });
-  res.json(result);
 });
 
 router.put("/", function (req, res, next) {
