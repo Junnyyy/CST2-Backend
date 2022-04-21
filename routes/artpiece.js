@@ -3,6 +3,13 @@ var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
 
+const reqUsername = req.user.username;
+const reqID = req.user.id;
+const reqFirstname = req.user.firstname;
+const reqEmail = req.user.email;
+
+const reqAdmin = req.user.admin;
+
 router.get("/", function (req, res, next) {
   const query =
     "SELECT * FROM ART_PIECE;";
@@ -160,6 +167,9 @@ router.post("/", function (req, res, next) {
 });
 
 router.delete("/", function (req, res, next) {
+  if(!reqAdmin) {
+    res.sendStatus(401)
+  }
   if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
     res.sendStatus(400);
   }
