@@ -2,7 +2,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-function generateAccessToken(payloadInfo) {
+async function generateAccessToken(payloadInfo) {
   var payload = {
     username: payloadInfo.username,
     id: payloadInfo.id,
