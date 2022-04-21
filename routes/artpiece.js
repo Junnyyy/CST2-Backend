@@ -5,7 +5,7 @@ var database = require("../helpers/database.js");
 
 router.get("/", function (req, res, next) {
   const query =
-    "SELECT Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID FROM ART_PIECE;";
+    "SELECT * FROM ART_PIECE;";
   database.query(query, function (err, result) {
     if (err) {
       res.sendStatus(500);
