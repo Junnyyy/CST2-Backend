@@ -16,6 +16,9 @@ router.get("/", function (req, res, next) {
 });
 
 router.put("/", function (req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 5) {
+    res.sendStatus(400);
+  }
   const updateItem = req.body;
   // use primary key to find row to modify
   const Squery =
@@ -74,7 +77,7 @@ router.put("/", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 3) {
     res.sendStatus(400);
   }
 
@@ -99,7 +102,9 @@ router.post("/", function (req, res, next) {
 });
 
 router.delete("/", function(req, res, next) {
-  if (Object.keys(req.body).length < 1) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
+    res.sendStatus(400);
+  }
 
   const delItem = req.body;
   var data = [delItem.itemID];

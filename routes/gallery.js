@@ -16,6 +16,9 @@ router.get("/", function (req, res, next) {
 });
 
 router.put("/", function(req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 3) {
+    res.sendStatus(400);
+  }
   const delGal = req.body;
   // use primary key to find row to modify
   const Squery = "SELECT Gallery_Name, Managing_Department, Capacity FROM GALLERY WHERE Gallery_Name=?;";
@@ -54,7 +57,7 @@ router.put("/", function(req, res, next) {
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 3) {
     res.sendStatus(400);
   }
 
@@ -78,7 +81,9 @@ router.post("/", function (req, res, next) {
   });
 });
 router.delete("/", function(req, res, next) {
-  if (Object.keys(req.body).length < 1) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
+    res.sendStatus(400);
+  }
 
   const delGal = req.body;
   var data = [delGal.name];

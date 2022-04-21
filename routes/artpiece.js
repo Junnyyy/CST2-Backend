@@ -11,12 +11,15 @@ router.get("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
+    res.json(result);
   });
-  res.json(result);
 });
 
 
 router.put("/", function (req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 15) {
+    res.sendStatus(400);
+  }
   const updateAP = req.body;
   // use primary key to find row to modify
   const Squery =
@@ -59,17 +62,14 @@ router.put("/", function (req, res, next) {
     }
     if(updateAP.refurbishedstatus=="") {
       var newRefurbished =results[0].Being_Refurbished;
-    }
-    else {
+    } else {
       var newRefurbished = updateAP.refurbishedstatus;
     }
     if(updateAP.displaystatus=="") {
       var newDisplay = results[0].On_Display;
-    }
-    else {
+    } else {
       var newDisplay = updateAP.displaystatus;
     }
-    
     if (updateAP.year == "") {
       var newYear = results[0].Year_Acquired;
     } else {
@@ -107,19 +107,20 @@ router.put("/", function (req, res, next) {
     }
     const Uquery =
       "UPDATE ART_PIECE SET Art_Piece_Title=?, Date_Created=?, Medium=?, Creator_F_Name=?, Creator_L_Name=?, Being_Refurbished=?, On_Display=?, Year_Acquired=?, Culture=?, Piece_Height=?, Piece_Length=?, Piece_Width=?, Gallery_Loc=?, Exhibit_ID=? WHERE Art_Piece_ID=?;";
-    database.query(Uquery, [newTitle,newCreated, newMedium, newFname, newLname, newRefurbished, newDisplay, newYear, newCulture, newHeight, newLen, newWidth, newGal, newEID, APPK], function (err, result) {
+    database.query(Uquery, [newTitle, newCreated, newMedium, newFname, newLname, newRefurbished, newDisplay, newYear, newCulture, newHeight, newLen, newWidth, newGal, newEID, APPK,], function (err, result) {
       if (err) {
         throw err;
       }
-    );
+    });
   });
   res.sendStatus(200);
 });
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (Object.keys(req.body).length < 3) return res.status(400);
-
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 13) {
+    res.sendStatus(400);
+  }
   const newArt = req.body;
   var data = [
     newArt.title,
@@ -159,7 +160,9 @@ router.post("/", function (req, res, next) {
 });
 
 router.delete("/", function (req, res, next) {
-  if (Object.keys(req.body).length < 1) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
+    res.sendStatus(400);
+  }
 
   const delArt = req.body;
   var data = [delArt.ID];
@@ -170,8 +173,8 @@ router.delete("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
+    res.sendStatus(200);
   });
-  res.sendStatus(200);
 });
 
 module.exports = router;

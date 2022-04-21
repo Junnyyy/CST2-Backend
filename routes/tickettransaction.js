@@ -17,6 +17,9 @@ router.get("/", function (req, res, next) {
 
 
 router.post("/", function (req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 2) {
+    res.sendStatus(400);
+  }
   const newTicketTran = req.body;
   var data = [newTicketTran.CID,newTicketTran.EID];
   const query = "INSERT INTO ticket_transaction(Ticket_Customer_ID, Ticket_Exhibit_ID) VALUES(?);";

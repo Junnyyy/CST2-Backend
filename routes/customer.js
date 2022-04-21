@@ -16,10 +16,13 @@ router.get("/", function (req, res, next) {
 });
 
 router.put("/", function (req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 8) {
+    res.sendStatus(400);
+  }
   const updateCust = req.body;
   // use primary key to find row to modify
   const Squery =
-    "SELECT Customer_ID, Customer_F_Name, Customer_M_Name, Customer_L_Name, Membership_Status, Customer_Username, Customer_Password, Customer_Email FROM CUSTOMER WHERE Customer_ID=?;";
+    "SELECT Customer_F_Name, Customer_M_Name, Customer_L_Name, Membership_Status, Customer_Username, Customer_Password, Customer_Email FROM CUSTOMER WHERE Customer_ID=?;";
   database.query(Squery, updateCust.CID, function (err, results) {
     if (err) {
       //row doesn't exist
@@ -94,7 +97,7 @@ router.put("/", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 7) {
     res.sendStatus(400);
   }
 
@@ -121,7 +124,9 @@ router.post("/", function (req, res, next) {
 
 
 router.delete("/", function(req, res, next) {
-  if (Object.keys(req.body).length < 1) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
+    res.sendStatus(400);
+  }
 
   const delCust = req.body;
   var data = [delCust.CID];

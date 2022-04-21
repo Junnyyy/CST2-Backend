@@ -18,6 +18,9 @@ router.get("/", function (req, res, next) {
 
 
 router.put("/", function(req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 8) {
+    res.sendStatus(400);
+  }
   const updateEx = req.body;
   // use primary key to find row to modify
   const Squery = "SELECT Exhibit_Name, Arrival_Date, Departure_Date, Permanent, Ticket_Price, Number_Tickets_Sold, Managing_Department, Located_In FROM EXHIBIT WHERE Exhibit_ID=?;";
@@ -86,7 +89,7 @@ router.put("/", function(req, res, next) {
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 7) {
     res.sendStatus(400);
   }
 
@@ -111,7 +114,9 @@ router.post("/", function (req, res, next) {
   });
 });
 router.delete("/", function(req, res, next) {
-  if (Object.keys(req.body).length < 1) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
+    res.sendStatus(400);
+  }
 
   const delEx = req.body;
   var data = [delEx.EID];

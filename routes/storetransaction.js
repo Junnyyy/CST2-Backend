@@ -18,14 +18,14 @@ router.get("/", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 2) {
     res.sendStatus(400);
   }
 
   const newStoreTran = req.body;
   var data = [newStoreTran.CID,newStoreTran.IID];
 
-  const query = "INSERT INTO store_transaction(Store_Customer_ID,Store_Item_ID) VALUES(?);";
+  const query = "INSERT INTO Store_Transaction(Store_Customer_ID,Store_Item_ID) VALUES(?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);

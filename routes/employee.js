@@ -16,6 +16,9 @@ router.get("/", function (req, res, next) {
 });
 
 router.put("/", function (req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 9) {
+    res.sendStatus(400);
+  }
   const updateEmployee = req.body;
   // use primary key to find row to modify
   const Squery =
@@ -63,12 +66,13 @@ router.put("/", function (req, res, next) {
     else {
       var newDOB = updateEmployee.dob;
     }
-    if(updateEmployee.email=="") {
+    /*if(updateEmployee.email=="") {
       var newEmail = results[0].Employee_Email;
     }
     else {
       var newEmail = updateEmployee.email;
-    }
+    }*/
+    // also took it out of update sql query so would need to put it back there! Employee_Email=?
     if (updateEmployee.user == "") {
       var newUser = results[0].Employee_Username;
     } else {
@@ -87,7 +91,7 @@ router.put("/", function (req, res, next) {
       var newFlag = updateEmployee.flag;
     }
     const Uquery =
-      "UPDATE EMPLOYEE SET Employee_F_Name=?, Employee_M_Name=?, Employee_L_Name=?, Department_Name=?, Employee_Salary=?, Employee_DOB=?, Employee_Email=?, Employee_Username=?, Employee_Password=?, Admin_Flag=? WHERE Employee_ID=?;";
+      "UPDATE EMPLOYEE SET Employee_F_Name=?, Employee_M_Name=?, Employee_L_Name=?, Department_Name=?, Employee_Salary=?, Employee_DOB=?, Employee_Username=?, Employee_Password=?, Admin_Flag=? WHERE Employee_ID=?;";
     database.query(
       Uquery,
       [
@@ -97,7 +101,7 @@ router.put("/", function (req, res, next) {
         newDept,
         newSalary,
         newDOB,
-        newEmail,
+        //newEmail,
         newUser,
         newPass,
         newFlag,
@@ -113,35 +117,11 @@ router.put("/", function (req, res, next) {
   res.sendStatus(200);
 });
 
-router.post("/", function (req, res, next) {
-  // Data validation
-  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    res.sendStatus(400);
-  }
-
-  const newEmp = req.body;
-  var data = [newEmp.fname, newEmp.mname, newEmp.lname, newEmp.department, newEmp.salary, newEmp.dob, newEmp.user, newEmp.password];
-
-  const query =
-    "INSERT INTO EMPLOYEE (Employee_F_Name, Employee__M_Name, Employee_L_Name, Department_Name, Employee_Salary, Employee_DOB, Employee_Username, Employee_Password) VALUES (?);";
-  database.query(query, [data], function (err, result) {
-    if (err) {
-      res.sendStatus(500);
-      throw err;
-    }
-  });
-  const returnquery = "SELECT Employee_ID FROM EMPLOYEE WHERE Employee_Email=?;";
-  database.query(returnquery, newEmp.email, function(err,result){
-    if(err) {
-      res.sendStatus(500);
-      throw err;
-    }
-    res.json(result);
-  });
-});
 
 router.delete("/", function(req, res, next) {
-  if (Object.keys(req.body).length < 1) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
+    res.sendStatus(400);
+  }
 
   const delEmployee = req.body;
   var data = [delEmployee.EID];
