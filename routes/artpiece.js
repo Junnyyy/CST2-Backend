@@ -4,17 +4,15 @@ router.use(express.json());
 var database = require("../helpers/database.js");
 
 router.get("/", function (req, res, next) {
-  const query =
-    "SELECT * FROM ART_PIECE;";
+  const query = "SELECT * FROM ART_PIECE;";
   database.query(query, function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
-    res.json(result);
   });
+  res.json(result);
 });
-
 
 router.put("/", function (req, res, next) {
   const updateAP = req.body;
@@ -57,18 +55,17 @@ router.put("/", function (req, res, next) {
     } else {
       var newLname = updateAP.lastname;
     }
-    /*if(updateAP.refurbishedstatus=="") {
-      var newRefurbished =results[0].Being_Refurbished;
-    }
-    else {
+    if (updateAP.refurbishedstatus == "") {
+      var newRefurbished = results[0].Being_Refurbished;
+    } else {
       var newRefurbished = updateAP.refurbishedstatus;
     }
-    if(updateAP.displaystatus=="") {
+    if (updateAP.displaystatus == "") {
       var newDisplay = results[0].On_Display;
-    }
-    else {
+    } else {
       var newDisplay = updateAP.displaystatus;
-    }*/
+    }
+
     if (updateAP.year == "") {
       var newYear = results[0].Year_Acquired;
     } else {
@@ -105,7 +102,7 @@ router.put("/", function (req, res, next) {
       var newEID = updateAP.EID;
     }
     const Uquery =
-      "UPDATE ART_PIECE SET Art_Piece_Title=?, Date_Created=?, Medium=?, Creator_F_Name=?, Creator_L_Name=?, Year_Acquired=?, Culture=?, Piece_Height=?, Piece_Length=?, Piece_Width=?, Gallery_Loc=?, Exhibit_ID=? WHERE Art_Piece_ID=?;";
+      "UPDATE ART_PIECE SET Art_Piece_Title=?, Date_Created=?, Medium=?, Creator_F_Name=?, Creator_L_Name=?, Being_Refurbished=?, On_Display=?, Year_Acquired=?, Culture=?, Piece_Height=?, Piece_Length=?, Piece_Width=?, Gallery_Loc=?, Exhibit_ID=? WHERE Art_Piece_ID=?;";
     database.query(
       Uquery,
       [
@@ -114,6 +111,8 @@ router.put("/", function (req, res, next) {
         newMedium,
         newFname,
         newLname,
+        newRefurbished,
+        newDisplay,
         newYear,
         newCulture,
         newHeight,
@@ -187,8 +186,8 @@ router.delete("/", function (req, res, next) {
       res.sendStatus(500);
       throw err;
     }
-    res.sendStatus(200);
   });
+  res.sendStatus(200);
 });
 
 module.exports = router;
