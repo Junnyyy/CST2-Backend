@@ -3,7 +3,7 @@ var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
 router.get("/", function (req, res, next) {
-  const query ='SELECT Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name FROM EMPLOYEE;';
+  const query ='SELECT Employee_ID, Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name FROM EMPLOYEE;';
   database.query(query,function (err, result) {
     if (err) {
       res.sendStatus(500);
