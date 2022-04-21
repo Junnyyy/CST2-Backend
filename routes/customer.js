@@ -92,7 +92,6 @@ router.put("/", function (req, res, next) {
   res.sendStatus(200);
 });
 
-
 router.post("/", function (req, res, next) {
   // Data validation
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {

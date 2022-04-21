@@ -2,8 +2,10 @@ var express = require("express");
 var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
+
+
 router.get("/", function (req, res, next) {
-  const query ="SELECT Department_Name, Location FROM DEPARTMENT;";
+  const query ="SELECT * FROM DEPARTMENT;";
   database.query(query,function (err, result) {
     if (err) {
       res.sendStatus(500);
@@ -59,7 +61,7 @@ router.post("/", function (req, res, next) {
   const newDept = req.body;
   var data = [newDept.name, newDept.loc, newDept.SID];
   const query =
-    "INSERT INTO DEPARTMENT(Department_Name, Location, Supervisor_ID) VALUES(?);";
+    "INSERT INTO DEPARTMENT (Department_Name, Location, Supervisor_ID) VALUES(?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);

@@ -2,8 +2,10 @@ var express = require("express");
 var router = express.Router();
 router.use(express.json());
 var database = require("../helpers/database.js");
+
+
 router.get("/", function (req, res, next) {
-  const query ='SELECT Exhibit_Name, Ticket_Price, Arrival_Date, Departure_Date FROM EXHIBIT;';
+  const query ='SELECT * FROM EXHIBIT;';
   database.query(query,function (err, result) {
     if (err) {
       res.sendStatus(500);
@@ -12,6 +14,8 @@ router.get("/", function (req, res, next) {
     res.json(result)
   })
 });
+
+
 
 router.put("/", function(req, res, next) {
   const updateEx = req.body;
@@ -92,6 +96,7 @@ router.post("/", function (req, res, next) {
     "INSERT INTO EXHIBIT(Exhibit_Name, Arrival_Date, Departure_Date, Permanent, Ticket_Price, Managing_Department, Located_In) VALUES(?);";
   database.query(query, [data], function (err, result) {
     if (err) {
+      console.log(err);
       res.sendStatus(500);
       throw err;
     }

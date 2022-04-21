@@ -22,6 +22,8 @@ const authenticateJWT = (req, res, next) => {
       return res.sendStatus(403);
     }
 
+    // To access payload do user.item
+    // Payload options: username, id, firstname, email, admin
     req.user = user;
 
     next();

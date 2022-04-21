@@ -15,7 +15,6 @@ router.get("/", function (req, res, next) {
   })
 });
 
-
 router.put("/", function (req, res, next) {
   const updateItem = req.body;
   // use primary key to find row to modify
