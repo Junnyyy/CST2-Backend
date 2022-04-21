@@ -6,7 +6,8 @@ var database = require("../helpers/database.js");
 var encryption = require("../helpers/encryption");
 
 router.post("/register", async (req, res, next) => {
-  if (Object.keys(req.body).length < 6) return res.status(400);
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 8)
+    return res.status(400);
   // Password encryption
   var hashedPassword = await encryption.generatePassword(req.body.password);
 
@@ -15,18 +16,32 @@ router.post("/register", async (req, res, next) => {
     req.body.middlename,
     req.body.lastname,
     req.body.department,
+    req.body.EmployeeSalary,
+    req.body.EmployeeDOB,
+    req.body.EmployeeUsername,
     hashedPassword,
-    req.body.username,
   ];
 
   const query =
-    "INSERT INTO EMPLOYEE(Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name, Employee_Password, Employee_Username) VALUES (?)";
+    "INSERT INTO EMPLOYEE (Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name, Employee_Salary, Employee_DOB, Employee_Username, Employee_Password) VALUES (?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);
       throw err;
     }
-    res.status(200).json({ username: req.body.username });
+    const returnquery =
+      "SELECT Employee_ID FROM EMPLOYEE WHERE Employee_Username=?;";
+    database.query(
+      returnquery,
+      [req.body.EmployeeUsername],
+      function (err, result) {
+        if (err) {
+          res.sendStatus(500);
+          throw err;
+        }
+        res.status(200).json(result);
+      }
+    );
   });
 });
 
