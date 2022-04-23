@@ -18,8 +18,8 @@ router.put("/", function (req, res, next) {
   const updateAP = req.body;
   // use primary key to find row to modify
   const Squery =
-    "SELECT Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, On_Display, Year_Acquired, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID FROM ART_PIECE WHERE Art_Piece_ID=?;";
-  database.query(Squery, updateAP.ID, function (err, results) {
+    "SELECT  Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, On_Display, Year_Acquired, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID FROM ART_PIECE WHERE Art_Piece_ID=?;";
+  database.query(Squery, updateAP.Art_Piece_ID, function (err, results) {
     if (err) {
       //row doesn't exist
       res.sendStatus(404);
@@ -27,7 +27,7 @@ router.put("/", function (req, res, next) {
     }
     // creates an array that holds the key values that the query returned
     // primary key cannot be modified
-    var APPK = updateAP.ID;
+    var APPK = updateAP.Art_Piece_ID;
     //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
     //if an attribute is to be modified, then the original req will hold that value in the associated key
     if (updateAP.title == "") {
@@ -106,6 +106,7 @@ router.put("/", function (req, res, next) {
     database.query(
       Uquery,
       [
+        
         newTitle,
         newCreated,
         newMedium,
