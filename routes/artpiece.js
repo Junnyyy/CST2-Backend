@@ -19,7 +19,7 @@ router.put("/", function (req, res, next) {
   // use primary key to find row to modify
 
   const Uquery =
-  "UPDATE ART_PIECE SET Art_Piece_Title=?, Date_Created=?, Medium=?, Creator_F_Name=?, Creator_L_Name=?, Being_Refurbished=?, On_Display=?, Year_Acquired=?, Culture=?, Piece_Height=?, Piece_Length=?, Piece_Width=?, Gallery_Loc=?, Exhibit_ID=? WHERE Art_Piece_ID=?;";
+  "UPDATE ART_PIECE SET Art_Piece_Title=?, Date_Created=?, Medium=?, Creator_F_Name=?, Creator_L_Name=?, Being_Refurbished=?, Year_Acquired=?, Culture=?, Piece_Height=?, Piece_Length=?, Piece_Width=?, Gallery_Loc=?, Exhibit_ID=? WHERE Art_Piece_ID=?;";
   database.query(
     Uquery,
     [
@@ -29,7 +29,6 @@ router.put("/", function (req, res, next) {
       updateAP.Creator_F_Name,
       updateAP.Creator_L_Name,
       updateAP.Being_Refurbished,
-      updateAP.On_Display,
       updateAP.Year_Acquired,
       updateAP.Culture,
       updateAP.Piece_Height,
@@ -37,7 +36,7 @@ router.put("/", function (req, res, next) {
       updateAP.Piece_Width,
       updateAP.Gallery_Loc,
       updateAP.Exhibit_ID,
-      updateAP.Art_Piece_ID
+      updateAP.Art_Piece_ID,
     ],
     function (err, result) {
       if (err) {
@@ -209,7 +208,7 @@ router.delete("/", function (req, res, next) {
   if (Object.keys(req.body).length < 1) return res.status(400);
 
   const delArt = req.body;
-  var data = [delArt.ID];
+  var data = [delArt.Art_Piece_ID];
 
   const query = "DELETE FROM ART_PIECE WHERE Art_Piece_ID =?;";
   database.query(query, [data], function (err, result) {
