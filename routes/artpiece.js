@@ -23,7 +23,6 @@ router.put("/", function (req, res, next) {
   database.query(
     Uquery,
     [
-      
       updateAP.Art_Piece_Title,
       updateAP.Date_Created,
       updateAP.Medium,
@@ -33,9 +32,9 @@ router.put("/", function (req, res, next) {
       updateAP.On_Display,
       updateAP.Year_Acquired,
       updateAP.Culture,
-      updateAP.Height,
-      updateAP.Length,
-      updateAP.Width,
+      updateAP.Piece_Height,
+      updateAP.Piece_Length,
+      updateAP.Piece_Width,
       updateAP.Gallery_Loc,
       updateAP.Exhibit_ID,
       updateAP.Art_Piece_ID
