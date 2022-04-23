@@ -46,7 +46,7 @@ router.put("/", function (req, res, next) {
       }
     }
   );
-    /*
+
   const Squery =
     "SELECT  Art_Piece_Title, Date_Created, Medium, Creator_F_Name, Creator_L_Name, Being_Refurbished, On_Display, Year_Acquired, Culture, Piece_Height, Piece_Length, Piece_Width, Gallery_Loc, Exhibit_ID FROM ART_PIECE WHERE Art_Piece_ID=?;";
   database.query(Squery, updateAP.Art_Piece_ID, function (err, results) {
@@ -160,7 +160,6 @@ router.put("/", function (req, res, next) {
       }
     );
   });
-  */
   res.sendStatus(200);
 });
 
