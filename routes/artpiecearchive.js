@@ -7,10 +7,11 @@ router.get("/", function (req, res, next) {
   const query ='SELECT * FROM ART_PIECE_ARCHIVE;';
   database.query(query,function (err, result) {
     if (err) {
-      res.sendStatus(500);
-      throw err;
+      return res.sendStatus(500);
     }
-    res.json(result)
+    else {
+      res.status(200).json(result);
+    }
   })
 });
 

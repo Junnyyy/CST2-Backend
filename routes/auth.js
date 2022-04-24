@@ -6,24 +6,25 @@ var database = require("../helpers/database.js");
 var encryption = require("../helpers/encryption");
 
 router.post("/register", async (req, res, next) => {
-  if (req.body.constructor !== Object || Object.keys(req.body).length < 8)
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 9)
     return res.status(400);
   // Password encryption
-  var hashedPassword = await encryption.generatePassword(req.body.password);
+  var hashedPassword = await encryption.generatePassword(req.body.Employeepassword);
 
   data = [
-    req.body.firstname,
-    req.body.middlename,
-    req.body.lastname,
-    req.body.department,
+    req.body.EmployeeFirstName,
+    req.body.EmployeeMiddleName,
+    req.body.EmployeeLastName,
+    req.body.DepartmentName,
     req.body.EmployeeSalary,
     req.body.EmployeeDOB,
     req.body.EmployeeUsername,
     hashedPassword,
+    req.body.EmployeeAdminFlag
   ];
 
   const query =
-    "INSERT INTO EMPLOYEE (Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name, Employee_Salary, Employee_DOB, Employee_Username, Employee_Password) VALUES (?);";
+    "INSERT INTO EMPLOYEE (Employee_F_Name, Employee_M_Name, Employee_L_Name, Department_Name, Employee_Salary, Employee_DOB, Employee_Username, Employee_Password, Admin_Flag) VALUES (?);";
   database.query(query, [data], function (err, result) {
     if (err) {
       res.sendStatus(500);
