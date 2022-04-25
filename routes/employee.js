@@ -29,15 +29,15 @@ router.put("/", async (req, res, next) => {
   database.query(
     Uquery,
     [ 
-      updateEmployee.fname,
-      updateEmployee.mname,
-      updateEmployee.lname,
-      updateEmployee.department,
-      updateEmployee.salary,
-      updateEmployee.dob,
-      updateEmployee.user,
-      updateEmployee.flag,
-      updateEmployee.EID,
+      updateEmployee.Employee_F_Name,
+      updateEmployee.Employee_M_Name,
+      updateEmployee.Employee_L_Name,
+      updateEmployee.Department_Name,
+      updateEmployee.Employee_Salary,
+      updateEmployee.Employee_DOB,
+      updateEmployee.Employee_Username,
+      updateEmployee.Admin_Flag,
+      updateEmployee.Employee_ID,
     ],
     function (err, result) {
       if (err) {
