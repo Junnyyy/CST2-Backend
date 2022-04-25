@@ -19,7 +19,7 @@ npm install
 
 2. Environmental variables
 - create a '.env' file in the source directory
-```
+```env
 # located in ./.env
 # env format
 
@@ -29,6 +29,10 @@ PASSWORD = 'MYSQL-PASSWORD'
 DATABASE = 'MYSQL-DB'
 PORT = 'OPTIONAL-DEV-PORT-HERE (Remove line if production)'
 TOKEN_SECRET = 'JWT-SECRET-HERE'
+```
+Secret tokens can be generated with the node hash function below:
+```js
+require('crypto').randomBytes(64).toString('hex')
 ```
 
 3. Start Application
