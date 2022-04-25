@@ -19,68 +19,23 @@ router.get("/", function (req, res, next) {
 
 router.put("/", function(req, res, next) {
   const updateEx = req.body;
-  // use primary key to find row to modify
-  const Squery = "SELECT Exhibit_Name, Arrival_Date, Departure_Date, Permanent, Ticket_Price, Number_Tickets_Sold, Managing_Department, Located_In FROM EXHIBIT WHERE Exhibit_ID=?;";
-  database.query(Squery,updateEx.EID,function(err,results){
-    if(err) {
-      //row doesn't exist
-      res.sendStatus(404);
-      throw err;
-    }
-    // creates an array that holds the key values that the query returned
-    // primary key cannot be modified
-    var exPK = updateEx.EID;
-    //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
-    //if an attribute is to be modified, then the original req will hold that value in the associated key
-    if(updateEx.name=="") {
-      var newName =results[0].Exhibit_name;
-    }
-    else {
-      var newName = updateEx.name;
-    }
-    if(updateEx.arr=="") {
-      var newArr = results[0].Arrival_Date;
-    }
-    else {
-      var newArr = updateEx.arr;
-    }
-    if(updateEx.depart=="") {
-      var newDepart =results[0].Departure_Date;
-    }
-    else {
-      var newDepart = updateEx.depart;
-    }
-    if(updateEx.permanent=="") {
-      var newPermanent = results[0].Permanent;
-    }
-    else {
-      var newPermanent = updateEx.permanent;
-    }
-    if(updateEx.price=="") {
-      var newPrice =results[0].Ticket_Price;
-    }
-    else {
-      var newPrice = updateEx.price;
-    }
-    if(updateEx.manager=="") {
-      var newManager =results[0].Managing_Department;
-    }
-    else {
-      var newManager = updateEx.Managing_Department;
-    }
-    if(updateEx.loc=="") {
-      var newLoc = results[0].Located_In;
-    }
-    else {
-      var newLoc = updateEx.loc;
-    }
+
     const Uquery = "UPDATE EXHIBIT SET Exhibit_Name=?, Arrival_Date=?, Departure_Date=?, Permanent=?, Ticket_Price=?, Managing_Department=?, Located_In=? WHERE Exhibit_ID=?;";
-    database.query(Uquery,[newName, newArr, newDepart, newPermanent, newPrice, newManager, newLoc, exPK], function(err,result){
+    database.query(Uquery,
+      [updateEx.Exhibit_Name, 
+        updateEx.Arrival_Date, 
+        updateEx.Departure_Date, 
+        updateEx.Permanent, 
+        updateEx.Ticket_Price, 
+        updateEx.Managing_Department, 
+        updateEx.Located_In, 
+        updateEx.Exhibit_ID
+      ], 
+        function(err,result){
       if(err) {
         throw err;
       }
     });
-  });
   res.sendStatus(200);
 });
 

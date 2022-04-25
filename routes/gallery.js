@@ -16,40 +16,27 @@ router.get("/", function (req, res, next) {
 });
 
 router.put("/", function(req, res, next) {
-  const delGal = req.body;
+  const updateAP = req.body;
   // use primary key to find row to modify
-  const Squery = "SELECT Gallery_Name, Managing_Department, Capacity FROM GALLERY WHERE Gallery_Name=?;";
-  database.query(Squery,delGal.name,function(err,results){
-    if(err) {
-      //row doesn't exist
-      res.sendStatus(404);
-      throw err;
-    }
-    // creates an array that holds the key values that the query returned
-    // primary key cannot be modified
-    var galPK = delGal.name;
-    //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
-    //if an attribute is to be modified, then the original req will hold that value in the associated key
-    if(delGal.manager=="") {
-      var newManager =results[0].Managing_Department;
-    }
-    else {
-      var newManager = delGal.manager;
-    }
-    if(delGal.capacity=="") {
-      var newCapacity = results[0].Capacity;
-    }
-    else {
-      var newCapacity = delGal.capacity;
-    }
-    const Uquery = "UPDATE GALLERY SET Managing_Department=?, Capacity=? WHERE Gallery_Name=?;";
-    database.query(Uquery,[newManager, newCapacity, galPK], function(err,result){
-      if(err) {
-        throw err;
+
+  const Uquery =
+  "UPDATE GALLERY SET Managing_Department=?, Capacity=? WHERE Gallery_Name=?;";
+  database.query(
+    Uquery,
+    [
+      updateAP.Managing_Department,
+      updateAP.Capacity,
+      updateAP.Gallery_Name,
+    ],
+    function (err, result) {
+      if (err) {
+        return res.sendStatus(500);
       }
-    });
-  });
-  res.sendStatus(200);
+      else {
+        return res.sendStatus(200);
+      }
+    }
+  );
 });
 
 router.post("/", function (req, res, next) {
