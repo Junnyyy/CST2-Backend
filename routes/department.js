@@ -91,11 +91,13 @@ router.delete("/", function(req, res, next) {
 
   const query = "DELETE FROM DEPARTMENT WHERE Department_Name =?;";
   database.query(query, [data], function(err,result) {
-    if(err) {
-      res.sendStatus(500);
-      throw err;
+    if (err) {
+      return res.sendStatus(500);
+    }else {
+      return res.sendStatus(200);
     }
     res.sendStatus(200);
   });
+  return;
 });
 module.exports = router;

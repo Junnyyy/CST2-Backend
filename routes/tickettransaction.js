@@ -8,13 +8,41 @@ router.get("/", function (req, res, next) {
   const query ='SELECT * FROM TICKET_TRANSACTION;';
   database.query(query,function (err, result) {
     if (err) {
-      res.sendStatus(500);
-      throw err;
+      return res.sendStatus(500);
     }
-    res.json(result)
-  })
+    return res.json(result);
+  });
 });
 
+router.put("/", function (req, res, next) {
+  if (req.body.constructor !== Object || Object.keys(req.body).length < 5) {
+    return res.sendStatus(500);
+  }
+  const updateTT = req.body;
+  // use primary key to find row to modify
+
+  const Uquery =
+  "UPDATE Ticket_TRANSACTION SET Ticket_Customer_ID=?, Ticket_Exhibit_ID=?, Ticket_Total_Bill=?, Ticket_Transaction_Date=? WHERE Ticket_Transaction_ID=?;";
+  database.query(
+    Uquery,
+    [
+      updateTT.Ticket_Customer_ID,
+      updateTT.Ticket_Exhibit_ID,
+      updateTT.Ticket_Total_Bill,
+      updateTT.Ticket_Transaction_Date,
+      updateTT.Ticket_Transaction_ID
+    ],
+    function (err, result) {
+      if (err) {
+        return res.sendStatus(500);
+      }
+      else {
+        return res.sendStatus(200);
+      }
+    }
+  );
+  return;
+});
 
 router.post("/", function (req, res, next) {
   if (req.body.constructor !== Object || Object.keys(req.body).length < 2) {

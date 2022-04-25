@@ -8,57 +8,17 @@ router.get("/", function (req, res, next) {
   const query ='SELECT * FROM GALLERY;';
   database.query(query,function (err, result) {
     if (err) {
-      res.sendStatus(500);
-      throw err;
+      return res.sendStatus(500);
     }
-    res.json(result);
+    return res.status(200).json(result);
   })
 });
 
-router.put("/", function(req, res, next) {
-  if (req.body.constructor !== Object || Object.keys(req.body).length < 3) {
-    res.sendStatus(400);
-  }
-  const delGal = req.body;
-  // use primary key to find row to modify
-  const Squery = "SELECT Gallery_Name, Managing_Department, Capacity FROM GALLERY WHERE Gallery_Name=?;";
-  database.query(Squery,delGal.name,function(err,results){
-    if(err) {
-      //row doesn't exist
-      res.sendStatus(404);
-      throw err;
-    }
-    // creates an array that holds the key values that the query returned
-    // primary key cannot be modified
-    var galPK = delGal.name;
-    //if an attribute is not to be modified, then the original req will have that key assigned to a value that is an empty string
-    //if an attribute is to be modified, then the original req will hold that value in the associated key
-    if(delGal.manager=="") {
-      var newManager =results[0].Managing_Department;
-    }
-    else {
-      var newManager = delGal.manager;
-    }
-    if(delGal.capacity=="") {
-      var newCapacity = results[0].Capacity;
-    }
-    else {
-      var newCapacity = delGal.capacity;
-    }
-    const Uquery = "UPDATE GALLERY SET Managing_Department=?, Capacity=? WHERE Gallery_Name=?;";
-    database.query(Uquery,[newManager, newCapacity, galPK], function(err,result){
-      if(err) {
-        throw err;
-      }
-    });
-  });
-  res.sendStatus(200);
-});
 
 router.post("/", function (req, res, next) {
   // Data validation
-  if (req.body.constructor !== Object || Object.keys(req.body).length < 3) {
-    res.sendStatus(400);
+  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+    return res.sendStatus(500);
   }
 
   const newGal = req.body;
@@ -67,22 +27,23 @@ router.post("/", function (req, res, next) {
     "INSERT INTO GALLERY(Gallery_Name, Managing_Department,Capacity) VALUES(?);";
   database.query(query, [data], function (err, result) {
     if (err) {
-      res.sendStatus(500);
-      throw err;
+      return res.sendStatus(500);
     }
   });
   const returnquery = "SELECT Gallery_Name FROM GALLERY WHERE Gallery_Name=?;";
   database.query(returnquery, newGal.name, function(err,result){
     if(err) {
-      res.sendStatus(500);
-      throw err;
+      return res.sendStatus(500);
     }
-    res.json(result);
+    else {
+      return res.status(200).json(result);
+    }
   });
+  return;
 });
 router.delete("/", function(req, res, next) {
   if (req.body.constructor !== Object || Object.keys(req.body).length < 1) {
-    res.sendStatus(400);
+    return res.sendStatus(500);
   }
 
   const delGal = req.body;
@@ -91,10 +52,12 @@ router.delete("/", function(req, res, next) {
   const query = "DELETE FROM GALLERY WHERE Gallery_Name =?;";
   database.query(query, [data], function(err,result) {
     if(err) {
-      res.sendStatus(500);
-      throw err;
+      return res.sendStatus(500);
     }
-    res.sendStatus(200);
+    else {
+      return res.sendStatus(200);
+    }
   });
+  return;
 });
 module.exports = router;

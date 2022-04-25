@@ -43,7 +43,7 @@ router.post("/login", async (req, res, next) => {
 
     // Status 401 if no username found
     if (result.length === 0) {
-      return res.status(401).json({ error: "not found" });
+      return res.status(401).json({ error: "Username is incorrect!" });
     }
 
     const validPassword = await encryption.comparePassword(
@@ -53,7 +53,7 @@ router.post("/login", async (req, res, next) => {
 
     // Status 401 if password incorrect
     if (!validPassword) {
-      return res.status(401).json({ error: "not found" });
+      return res.status(401).json({ error: "Password is incorrect!" });
     }
 
     var flag = false;
