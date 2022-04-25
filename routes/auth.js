@@ -9,7 +9,9 @@ router.post("/register", async (req, res, next) => {
   if (req.body.constructor !== Object || Object.keys(req.body).length < 9)
     return res.status(400);
   // Password encryption
-  var hashedPassword = await encryption.generatePassword(req.body.Employeepassword);
+  var hashedPassword = await encryption.generatePassword(
+    req.body.Employeepassword
+  );
 
   data = [
     req.body.EmployeeFirstName,
@@ -20,7 +22,7 @@ router.post("/register", async (req, res, next) => {
     req.body.EmployeeDOB,
     req.body.EmployeeUsername,
     hashedPassword,
-    req.body.EmployeeAdminFlag
+    req.body.EmployeeAdminFlag,
   ];
 
   const query =
@@ -59,7 +61,9 @@ router.post("/login", async (req, res, next) => {
 
     // Status 401 if no username found
     if (result.length === 0) {
-      return res.status(401).json({ error: "not found" });
+      return res
+        .status(401)
+        .json({ error: "Your username or password is incorrect!" });
     }
 
     const validPassword = await encryption.comparePassword(
@@ -69,7 +73,9 @@ router.post("/login", async (req, res, next) => {
 
     // Status 401 if password incorrect
     if (!validPassword) {
-      return res.status(401).json({ error: "not found" });
+      return res
+        .status(401)
+        .json({ error: "Your username or password is incorrect!" });
     }
 
     var flag = false;
