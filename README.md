@@ -20,7 +20,7 @@ npm install
 2. Environmental variables
 - create a '.env' file in the source directory
 ```
-# located in /.env
+# located in ./.env
 # env format
 
 HOST = 'MYSQL-HOST'
